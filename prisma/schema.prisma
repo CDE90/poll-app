@@ -46,11 +46,6 @@ model Vote {
     userId   String
 }
 
-// not necessary
-model Example {
-    id String @id @default(cuid())
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
