@@ -19,7 +19,36 @@ export const pollRouter = createRouter()
           },
         });
       } catch (error) {
-        console.log("error", error);
+        console.log(error);
+      }
+    },
+  })
+  .query("getById", {
+    input: z.object({ id: z.string() }),
+    async resolve({ input, ctx }) {
+      try {
+        const poll = await ctx.prisma.poll.findFirst({
+          where: {
+            id: input.id,
+          },
+        });
+
+        const options = await prisma?.option.findMany({
+          where: { pollId: input.id },
+          select: { name: true, id: true },
+        });
+
+        const votes = await prisma?.vote.groupBy({
+          where: { pollId: input.id },
+          by: ["optionId"],
+          _count: true,
+        });
+
+        console.log(poll);
+        console.log(options);
+        console.log(votes);
+      } catch (error) {
+        console.log(error);
       }
     },
   })

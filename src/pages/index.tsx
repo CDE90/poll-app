@@ -53,6 +53,8 @@ const Home: NextPage = () => {
     },
   });
 
+  trpc.useQuery(["poll.getById", { id: "cl7azmwfi0504ocv55e369let" }]);
+
   if (status === "loading") {
     return <main className="flex flex-col items-center pt-4">Loading...</main>;
   }
