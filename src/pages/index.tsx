@@ -3,6 +3,7 @@ import Head from "next/head";
 import { trpc } from "../utils/trpc";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import Button from "../components/Button";
 
 const Polls = () => {
   const { data: polls, isLoading } = trpc.useQuery(["poll.getAll"]);
@@ -14,11 +15,17 @@ const Polls = () => {
       {polls?.map((pll, index) => {
         return (
           <div key={index}>
-            <p>{pll.name}</p>
+            <p>
+              {pll.name} - {pll.id}
+            </p>
             <span>{pll.author.name}</span>
             <ul>
               {pll.options.map((opt, i) => {
-                return <li className="list-disc">{opt.name}</li>;
+                return (
+                  <li className="list-disc" key={0 - i}>
+                    {opt.name}
+                  </li>
+                );
               })}
             </ul>
           </div>
@@ -59,27 +66,33 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex flex-col items-center">
-        <h1 className="text-3xl pt-4">Polls</h1>
+        <div className="flex flex-row w-full justify-between p-1">
+          <h1 className="text-3xl">Polls</h1>
+          {session ? (
+            <div>
+              <span className="mr-2">{session.user?.name}</span>
+              <Button callback={() => signOut()} displayText="Logout" />
+            </div>
+          ) : (
+            <div>
+              <Button
+                callback={() => signIn("discord")}
+                displayText="Login with Discord"
+              />
+            </div>
+          )}
+        </div>
 
         <div className="pt-10">
           {session ? (
             <div>
-              <p>hi {session.user?.name}</p>
-
-              <button
-                onClick={() => signOut()}
-                className="p-2 rounded-md border-2 border-zinc-800 focus:outline-none"
-              >
-                Logout
-              </button>
-
               <div className="pt-6">
                 <form
                   className="flex gap-2"
                   onSubmit={(event) => {
                     event.preventDefault();
 
-                    postPoll.mutate({ name: name });
+                    postPoll.mutate({ name: name, options: [] });
 
                     setName("");
                   }}

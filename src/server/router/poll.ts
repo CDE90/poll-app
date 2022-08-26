@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createRouter } from "./context";
+import { Option } from "@prisma/client";
 
 export const pollRouter = createRouter()
   .query("getAll", {
@@ -11,6 +12,7 @@ export const pollRouter = createRouter()
             name: true,
             author: true,
             options: true,
+            id: true,
           },
           orderBy: {
             createdAt: "desc",
@@ -30,19 +32,24 @@ export const pollRouter = createRouter()
   .mutation("createPoll", {
     input: z.object({
       name: z.string(),
-      // options: z.array(
-      //   z.object({
-      //     name: z.string(),
-      //   })
-      // ),
+      options: z.array(
+        z.object({
+          name: z.string(),
+        })
+      ),
     }),
     async resolve({ ctx, input }) {
       try {
-        await ctx.prisma.poll.create({
+        const poll = await ctx.prisma.poll.create({
           data: {
             name: input.name,
             authorId: ctx.session?.user?.id ? ctx.session.user.id : "",
           },
+        });
+        await ctx.prisma.option.createMany({
+          data: input.options.map((item) => {
+            return { name: item.name, pollId: poll.id } as Option;
+          }),
         });
       } catch (error) {
         console.log(error);
