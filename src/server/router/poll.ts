@@ -44,9 +44,27 @@ export const pollRouter = createRouter()
           _count: true,
         });
 
-        console.log(poll);
-        console.log(options);
-        console.log(votes);
+        const totalVotes = await prisma?.vote.count({
+          where: {
+            pollId: input.id,
+          },
+        });
+
+        const optionVotes = options?.map((opt) => {
+          let count = votes?.find(
+            (element) => element.optionId === opt.id
+          )?._count;
+          return {
+            ...opt,
+            count: count ? count : 0,
+          };
+        });
+
+        return {
+          poll,
+          votes: optionVotes,
+          totalVotes,
+        };
       } catch (error) {
         console.log(error);
       }
