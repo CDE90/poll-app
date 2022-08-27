@@ -36,13 +36,16 @@ model Option {
 }
 
 model Vote {
-    id       String @id @default(cuid())
-    Option   Option @relation(fields: [optionId], references: [id])
-    optionId String
-    Poll     Poll   @relation(fields: [pollId], references: [id])
-    pollId   String
-    User     User   @relation(fields: [userId], references: [id])
-    userId   String
+    id        String @id @default(cuid())
+    Option    Option @relation(fields: [optionId], references: [id])
+    optionId  String
+    Poll      Poll   @relation(fields: [pollId], references: [id])
+    pollId    String
+    voteToken String @db.VarChar(255)
+
+    @@unique([voteToken, pollId])
+    @@index([voteToken])
+    @@index([pollId])
 }
 
 // Necessary for Next auth
@@ -81,7 +84,6 @@ model User {
     accounts      Account[]
     sessions      Session[]
     polls         Poll[]
-    votes         Vote[]
 }
 
 model VerificationToken {
