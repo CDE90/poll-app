@@ -13,7 +13,11 @@ const CreatePage: NextPage = () => {
   const [pollName, setPollName] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const ctx = trpc.useContext();
-  const postPoll = trpc.useMutation("poll.createPoll");
+  const { mutate, data: postResponse } = trpc.useMutation("poll.createPoll", {
+    onSuccess: (data) => {
+      router.push(`/poll/${data?.pollId}`);
+    },
+  });
   const router = useRouter();
 
   if (status === "loading") {
@@ -57,14 +61,12 @@ const CreatePage: NextPage = () => {
                 return;
               }
 
-              postPoll.mutate({
+              mutate({
                 name: pollName,
                 options: newOptions.map((item) => {
                   return { name: item };
                 }),
               });
-
-              router.push("/"); //change
             }}
           >
             <div className="flex flex-col">
@@ -79,7 +81,7 @@ const CreatePage: NextPage = () => {
 
               {options.map((op, index) => {
                 return (
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row items-center" key={index}>
                     <input
                       type="text"
                       value={op}

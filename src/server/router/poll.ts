@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createRouter } from "./context";
-import { Option } from "@prisma/client";
+import { Option, Poll } from "@prisma/client";
 
 export const pollRouter = createRouter()
   .query("getAll", {
@@ -33,18 +33,18 @@ export const pollRouter = createRouter()
           },
         });
 
-        const options = await prisma?.option.findMany({
+        const options = await ctx.prisma.option.findMany({
           where: { pollId: input.id },
           select: { name: true, id: true },
         });
 
-        const votes = await prisma?.vote.groupBy({
+        const votes = await ctx.prisma.vote.groupBy({
           where: { pollId: input.id },
           by: ["optionId"],
           _count: true,
         });
 
-        const totalVotes = await prisma?.vote.count({
+        const totalVotes = await ctx.prisma.vote.count({
           where: {
             pollId: input.id,
           },
@@ -60,11 +60,38 @@ export const pollRouter = createRouter()
           };
         });
 
+        const userVoted = await ctx.prisma.vote.findFirst({
+          where: {
+            pollId: input.id,
+            voteToken: ctx.token,
+          },
+        });
+
         return {
           poll,
           votes: optionVotes,
-          totalVotes,
+          totalVotes: totalVotes ? totalVotes : 0,
+          userVoted: !!userVoted,
         };
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  })
+  .mutation("voteForPoll", {
+    input: z.object({
+      pollId: z.string(),
+      optionId: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      try {
+        await ctx.prisma.vote.create({
+          data: {
+            optionId: input.optionId,
+            pollId: input.pollId,
+            voteToken: ctx.token as string,
+          },
+        });
       } catch (error) {
         console.log(error);
       }
@@ -87,7 +114,7 @@ export const pollRouter = createRouter()
     }),
     async resolve({ ctx, input }) {
       try {
-        const poll = await ctx.prisma.poll.create({
+        const poll: Poll = await ctx.prisma.poll.create({
           data: {
             name: input.name,
             authorId: ctx.session?.user?.id ? ctx.session.user.id : "",
@@ -98,6 +125,10 @@ export const pollRouter = createRouter()
             return { name: item.name, pollId: poll.id } as Option;
           }),
         });
+
+        return {
+          pollId: poll.id,
+        };
       } catch (error) {
         console.log(error);
       }
