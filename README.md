@@ -5,11 +5,13 @@ Basically just my version of Strawpoll. A cookie is given to each user to ensure
 ## Todo:
 
 - [ ] getServersideProps for poll page
+- [ ] add author info to poll vote page & creation date/time
 - [ ] add poll list main page
 - [ ] navbar on all pages
 - [ ] finish styles on all pages
 - [ ] add custom 404 page?
 - [ ] make sure discord embed link works nicely
+- [ ] ability to add a end date/time to polls?
 - [ ] deploy to vercel
 
 # Create T3 App
