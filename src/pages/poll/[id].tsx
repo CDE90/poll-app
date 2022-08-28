@@ -15,7 +15,7 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
     onMutate: () => {
       ctx.cancelQuery(["poll.getById"]);
 
-      let optimisticUpdate = ctx.getQueryData(["poll.getById", { id: id }]);
+      const optimisticUpdate = ctx.getQueryData(["poll.getById", { id: id }]);
       if (optimisticUpdate) {
         ctx.setQueryData(["poll.getById"], optimisticUpdate);
       }
@@ -41,9 +41,20 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
       </Head>
 
       <main className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold mb-10 text-center">
-          {pollData?.poll?.name}
-        </h1>
+        <div className="flex flex-row justify-between mt-6">
+          <h1 className="text-2xl font-bold mb-6 text-center">
+            {pollData?.poll?.name}
+          </h1>
+          <div>
+            <p className="text-md text-right">
+              Asked by: {pollData?.poll?.author.name}
+            </p>
+            <p className="text-md mb-4 text-right">
+              {pollData?.poll?.createdAt.toLocaleString().slice(0, -3)}
+            </p>
+          </div>
+        </div>
+
         <div className="flex flex-col gap-4">
           {pollData?.votes?.map((item) => {
             if (pollData.userVoted) {
@@ -55,11 +66,18 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
                       {getPercent(item.count, pollData.totalVotes).toFixed(1)}%
                     </p>
                   </div>
-                  <progress
-                    value={item.count}
-                    max={pollData.totalVotes}
-                    className="progress progress-secondary w-full"
-                  ></progress>
+
+                  <div className="w-full bg-zinc-600 h-3 mb-3 mt-1">
+                    <div
+                      className="bg-blue-700 h-3"
+                      style={{
+                        width: `${getPercent(
+                          item.count,
+                          pollData.totalVotes
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
               );
             } else {

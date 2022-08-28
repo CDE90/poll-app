@@ -12,8 +12,7 @@ const CreatePage: NextPage = () => {
   const { data: session, status } = useSession({ required: true });
   const [pollName, setPollName] = useState("");
   const [options, setOptions] = useState(["", ""]);
-  const ctx = trpc.useContext();
-  const { mutate, data: postResponse } = trpc.useMutation("poll.createPoll", {
+  const { mutate } = trpc.useMutation("poll.createPoll", {
     onSuccess: (data) => {
       router.push(`/poll/${data?.pollId}`);
     },
@@ -101,7 +100,7 @@ const CreatePage: NextPage = () => {
                         event.preventDefault();
 
                         if (options.length <= 2) {
-                          return;
+                          return alert("You must have at least 2 options");
                         }
                         const l = [...options];
                         l.splice(index, 1);

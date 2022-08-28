@@ -43,7 +43,7 @@ const Home: NextPage = () => {
     onMutate: () => {
       ctx.cancelQuery(["poll.getAll"]);
 
-      let optimisticUpdate = ctx.getQueryData(["poll.getAll"]);
+      const optimisticUpdate = ctx.getQueryData(["poll.getAll"]);
       if (optimisticUpdate) {
         ctx.setQueryData(["poll.getAll"], optimisticUpdate);
       }

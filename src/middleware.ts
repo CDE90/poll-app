@@ -1,7 +1,7 @@
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 
-export function middleware(req: NextRequest, ev: NextFetchEvent) {
+export function middleware(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith("/p")) {
     if (req.cookies.get("voter-token")) return;
 

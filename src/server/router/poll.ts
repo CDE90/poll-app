@@ -31,6 +31,12 @@ export const pollRouter = createRouter()
           where: {
             id: input.id,
           },
+          select: {
+            author: true,
+            id: true,
+            name: true,
+            createdAt: true,
+          },
         });
 
         const options = await ctx.prisma.option.findMany({
@@ -44,27 +50,27 @@ export const pollRouter = createRouter()
           _count: true,
         });
 
-        const totalVotes = await ctx.prisma.vote.count({
-          where: {
-            pollId: input.id,
-          },
-        });
-
-        const optionVotes = options?.map((opt) => {
-          let count = votes?.find(
-            (element) => element.optionId === opt.id
-          )?._count;
-          return {
-            ...opt,
-            count: count ? count : 0,
-          };
-        });
-
         const userVoted = await ctx.prisma.vote.findFirst({
           where: {
             pollId: input.id,
             voteToken: ctx.token,
           },
+        });
+
+        let totalVotes = 0;
+
+        const optionVotes = options?.map((opt) => {
+          const count = votes?.find(
+            (element) => element.optionId === opt.id
+          )?._count;
+          return {
+            ...opt,
+            count: count ?? 0,
+          };
+        });
+
+        optionVotes.forEach((item) => {
+          totalVotes += item.count;
         });
 
         return {
