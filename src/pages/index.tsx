@@ -4,6 +4,7 @@ import { trpc } from "../utils/trpc";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import Button from "../components/Button";
+import NavBar from "../components/NavBar";
 
 const Polls = () => {
   const { data: polls, isLoading } = trpc.useQuery(["poll.getAll"]);
@@ -53,8 +54,6 @@ const Home: NextPage = () => {
     },
   });
 
-  // trpc.useQuery(["poll.getById", { id: "cl7azmwfi0504ocv55e369let" }]);
-
   if (status === "loading") {
     return <main className="flex flex-col items-center pt-4">Loading...</main>;
   }
@@ -67,25 +66,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <NavBar />
       <main className="flex flex-col items-center">
-        <div className="flex flex-row w-full justify-between p-1">
-          <h1 className="text-3xl">Polls</h1>
-          {session ? (
-            <div>
-              <span className="mr-2">{session.user?.name}</span>
-              <Button callback={() => signOut()} displayText="Logout" />
-            </div>
-          ) : (
-            <div>
-              <Button
-                callback={() => signIn("discord")}
-                displayText="Login with Discord"
-              />
-            </div>
-          )}
-        </div>
+        <h1 className="text-3xl font-bold text-center mt-4">Polls</h1>
 
-        <div className="pt-10">
+        <div className="pt-5">
           {session ? (
             <div>
               <div className="pt-6">

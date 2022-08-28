@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import { useRouter } from "next/router";
 import Cross from "../components/Cross";
 import Plus from "../components/Plus";
+import NavBar from "../components/NavBar";
 
 const CreatePage: NextPage = () => {
   const { data: session, status } = useSession({ required: true });
@@ -30,25 +31,11 @@ const CreatePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <NavBar />
       <main className="flex flex-col items-center">
-        <div className="flex flex-row w-full justify-between p-1">
-          <h1 className="text-3xl">Create Poll</h1>
-          {session ? (
-            <div>
-              <span className="mr-2">{session.user?.name}</span>
-              <Button callback={() => signOut()} displayText="Logout" />
-            </div>
-          ) : (
-            <div>
-              <Button
-                callback={() => signIn("discord")}
-                displayText="Login with Discord"
-              />
-            </div>
-          )}
-        </div>
+        <h1 className="text-3xl font-bold text-center mt-4">Create Poll</h1>
 
-        <div className="pt-10">
+        <div className="pt-5">
           <form
             className="flex gap-2"
             onSubmit={(event) => {

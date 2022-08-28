@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import Button from "../../components/Button";
+import NavBar from "../../components/NavBar";
 import { trpc } from "../../utils/trpc";
 
 const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
@@ -40,6 +41,7 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <NavBar />
       <main className="max-w-2xl mx-auto">
         <div className="flex flex-row justify-between mt-6">
           <h1 className="text-2xl font-bold mb-6 text-center">
