@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
@@ -10,7 +10,7 @@ import Plus from "../components/Plus";
 import NavBar from "../components/NavBar";
 
 const CreatePage: NextPage = () => {
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   const [pollName, setPollName] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const { mutate } = trpc.useMutation("poll.createPoll", {

@@ -23,9 +23,8 @@ const Polls: React.FC<pollProps> = ({ pollName }) => {
     <div className="flex flex-col gap-4">
       {polls?.map((pll, index) => {
         return (
-          <Link href={`${getBaseUrl()}/poll/${pll.id}`}>
+          <Link href={`${getBaseUrl()}/poll/${pll.id}`} key={index}>
             <div
-              key={index}
               className="rounded-md border-zinc-800 border-2 hover:bg-zinc-800 px-4 py-2 flex flex-col cursor-pointer focus:outline-none focus:border-blue-700"
               tabIndex={0}
             >
