@@ -10,7 +10,7 @@ const NavBar: React.FC = () => {
   const router = useRouter();
 
   return (
-    <nav className="w-full flex flex-row justify-between items-center bg-zinc-900 ">
+    <nav className="w-full flex flex-row justify-between items-center shadow-lg ">
       <div className="items-center flex flex-row">
         <Link href="/">
           <a className="p-4">

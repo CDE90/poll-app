@@ -5,7 +5,7 @@ Basically just my version of Strawpoll. A cookie is given to each user to ensure
 ## Todo:
 
 - [x] add author info to poll vote page & creation date/time
-- [ ] add poll list main page
+- [x] add poll list main page
 - [x] navbar on all pages
 - [x] finish styles on all pages
 - [ ] add custom 404 page?

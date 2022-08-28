@@ -84,6 +84,55 @@ export const pollRouter = createRouter()
       }
     },
   })
+  .query("getByName", {
+    input: z.object({ name: z.optional(z.string()) }),
+    async resolve({ ctx, input }) {
+      try {
+        if (input.name) {
+          return await ctx.prisma.poll.findMany({
+            where: {
+              name: {
+                startsWith: input.name,
+              },
+            },
+            select: {
+              name: true,
+              author: true,
+              options: true,
+              id: true,
+              _count: {
+                select: {
+                  votes: true,
+                },
+              },
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 25,
+          });
+        }
+        return await ctx.prisma.poll.findMany({
+          select: {
+            name: true,
+            author: true,
+            options: true,
+            id: true,
+            _count: {
+              select: {
+                votes: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  })
   .mutation("voteForPoll", {
     input: z.object({
       pollId: z.string(),
