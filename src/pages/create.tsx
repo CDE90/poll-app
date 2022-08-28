@@ -110,12 +110,7 @@ const CreatePage: NextPage = () => {
                 >
                   <Plus className="invert w-6 h-6 group-hover:fill-blue-700 group-hover:invert-0" />
                 </button>
-                <Button
-                  callback={() => null}
-                  displayText="Submit"
-                  styles="flex-grow"
-                  type="submit"
-                />
+                <Button displayText="Submit" styles="flex-grow" type="submit" />
               </div>
             </div>
           </form>

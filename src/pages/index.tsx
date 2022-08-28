@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
-import { signIn, signOut, useSession } from "next-auth/react";
 import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import Button from "../components/Button";
@@ -27,7 +26,8 @@ const Polls: React.FC<pollProps> = ({ pollName }) => {
           <Link href={`${getBaseUrl()}/poll/${pll.id}`}>
             <div
               key={index}
-              className="rounded-md border-zinc-800 border-2 hover:bg-zinc-800 px-4 py-2 flex flex-col cursor-pointer"
+              className="rounded-md border-zinc-800 border-2 hover:bg-zinc-800 px-4 py-2 flex flex-col cursor-pointer focus:outline-none focus:border-blue-700"
+              tabIndex={0}
             >
               <p className="text-lg font-bold">{pll.name}</p>
               <div className="flex flex-row">
@@ -46,13 +46,8 @@ const Polls: React.FC<pollProps> = ({ pollName }) => {
 };
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
   const [name, setName] = useState("");
   const [preName, setPreName] = useState("");
-
-  if (status === "loading") {
-    return <main className="flex flex-col items-center pt-4">Loading...</main>;
-  }
 
   return (
     <>
@@ -81,7 +76,7 @@ const Home: NextPage = () => {
                 placeholder="Search for poll..."
                 maxLength={100}
                 onChange={(event) => setPreName(event.target.value)}
-                className="px-4 py-2 rounded-md border-2 border-zinc-800 bg-neutral-900 focus:outline-none w-full"
+                className="px-4 py-2 rounded-md border-2 border-zinc-800 bg-neutral-900 focus:outline-none focus:border-blue-700 w-full"
               />
               <Button type="submit" displayText="Seach" />
             </form>

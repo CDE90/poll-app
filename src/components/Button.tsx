@@ -14,12 +14,10 @@ const Button: React.FC<ButtonProps> = ({
   type,
 }) => {
   const baseStyle =
-    "p-2 rounded-md border-2 border-zinc-800 focus:outline-none hover:bg-zinc-800 hover:transition-all ";
+    "p-2 rounded-md border-2 border-zinc-800 focus:outline-none focus:border-blue-700 hover:bg-zinc-800 hover:transition-all ";
   return (
     <button
-      onClick={(event) => {
-        event.preventDefault();
-
+      onClick={() => {
         if (callback) {
           callback();
         }
