@@ -29,6 +29,17 @@ const CreatePage: NextPage = () => {
       <Head>
         <title>Create a Poll</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta content="Create a new poll!" property="og:title" />
+        <meta
+          content="Create a new poll, and give people options to vote on"
+          property="og:description"
+        />
+        <meta content="https://poll.ethancoward.dev/create" property="og:url" />
+        <meta
+          content="https://poll.ethancoward.dev/app-icon.png"
+          property="og:image"
+        />
+        <meta content="#1d4ed8" data-react-helmet="true" name="theme-color" />
       </Head>
 
       <NavBar />

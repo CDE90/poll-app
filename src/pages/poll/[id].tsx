@@ -39,6 +39,20 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
       <Head>
         <title>Vote on {pollData?.poll?.name}</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta content={`Vote on ${pollData?.poll?.name}`} property="og:title" />
+        <meta
+          content={`${pollData?.poll?.author.name} asks: ${pollData?.poll?.name}. Vote now!`}
+          property="og:description"
+        />
+        <meta
+          content={`https://poll.ethancoward.dev/poll/${pollData?.poll?.id}`}
+          property="og:url"
+        />
+        <meta
+          content="https://poll.ethancoward.dev/app-icon.png"
+          property="og:image"
+        />
+        <meta content="#1d4ed8" data-react-helmet="true" name="theme-color" />
       </Head>
 
       <NavBar />

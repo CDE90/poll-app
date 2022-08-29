@@ -9,7 +9,7 @@ Basically just my version of Strawpoll. A cookie is given to each user to ensure
 - [x] navbar on all pages
 - [x] finish styles on all pages
 - [ ] add custom 404 page?
-- [ ] make sure discord embed link works nicely
+- [x] make sure discord embed link works nicely
 - [ ] ability to add a end date/time to polls?
 - [ ] deploy to vercel
 
