@@ -43,7 +43,7 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
           property="og:description"
         />
         <meta
-          content={`https://poll.ethancoward.dev/poll/${pollData?.poll?.id}`}
+          content={`https://poll.ethancoward.dev/poll/${id}`}
           property="og:url"
         />
         <meta
