@@ -33,6 +33,7 @@ export const pollRouter = createRouter()
           },
           select: {
             author: true,
+            authorId: true,
             id: true,
             name: true,
             createdAt: true,
@@ -50,12 +51,14 @@ export const pollRouter = createRouter()
           _count: true,
         });
 
-        const userVoted = await ctx.prisma.vote.findFirst({
-          where: {
-            pollId: input.id,
-            voteToken: ctx.token,
-          },
-        });
+        const userVoted =
+          (poll?.authorId && poll.authorId === ctx.session?.user?.id) ||
+          (await ctx.prisma.vote.findFirst({
+            where: {
+              pollId: input.id,
+              voteToken: ctx.token,
+            },
+          }));
 
         let totalVotes = 0;
 

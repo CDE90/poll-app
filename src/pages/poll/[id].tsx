@@ -57,7 +57,7 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
       <main className="max-w-2xl mx-auto">
         <div className="flex flex-row justify-between mt-6">
           <h1 className="text-2xl font-bold mb-6 text-center">
-            {pollData?.poll?.name}
+            {pollData?.poll?.name ?? "Not found"}
           </h1>
           <div>
             <p className="text-md text-right">
@@ -77,7 +77,10 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
                   <div className="flex justify-between">
                     <p className="font-bold">{item.name}</p>
                     <p>
-                      {getPercent(item.count, pollData.totalVotes).toFixed(1)}%
+                      {`${item.count} - ${getPercent(
+                        item.count,
+                        pollData.totalVotes
+                      ).toFixed(1)}%`}
                     </p>
                   </div>
 
