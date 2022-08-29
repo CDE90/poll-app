@@ -5,6 +5,7 @@ type ButtonProps = {
   displayText: string;
   styles?: string;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,6 +13,7 @@ const Button: React.FC<ButtonProps> = ({
   displayText,
   styles,
   type,
+  disabled,
 }) => {
   const baseStyle =
     "p-2 rounded-md border-2 border-zinc-800 focus:outline-none focus:border-blue-700 hover:bg-zinc-800 hover:transition-all ";
@@ -24,6 +26,7 @@ const Button: React.FC<ButtonProps> = ({
       }}
       className={styles ? baseStyle + styles : baseStyle}
       type={type}
+      disabled={disabled ?? false}
     >
       {displayText}
     </button>

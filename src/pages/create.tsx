@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Head from "next/head";
 import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
@@ -19,7 +19,7 @@ const CreatePageContent: React.FC = () => {
     },
   });
 
-  const { status } = useSession({ required: true });
+  const { status } = useSession();
 
   if (status === "loading") {
     return <main>Loading...</main>;
@@ -30,12 +30,26 @@ const CreatePageContent: React.FC = () => {
       <NavBar />
       <main className="flex flex-col items-center">
         <h1 className="text-3xl font-bold text-center mt-4">Create Poll</h1>
+        {status === "unauthenticated" ? (
+          <p
+            onClick={() => signIn("discord")}
+            className="cursor-pointer text-blue-700 underline"
+          >
+            Sign in to create a poll
+          </p>
+        ) : (
+          <></>
+        )}
 
         <div className="pt-5">
           <form
             className="flex gap-2"
             onSubmit={(event) => {
               event.preventDefault();
+
+              if (status === "unauthenticated") {
+                return alert("You must be signed in to create a poll.");
+              }
 
               const newOptions = options.filter((item) => item !== "");
 
@@ -59,6 +73,7 @@ const CreatePageContent: React.FC = () => {
                 maxLength={100}
                 onChange={(event) => setPollName(event.target.value)}
                 className="my-1 px-4 py-2 rounded-md border-2 border-zinc-800 bg-neutral-900 focus:outline-none focus:border-blue-700"
+                disabled={status === "unauthenticated"}
               />
 
               {options.map((op, index) => {
@@ -76,6 +91,7 @@ const CreatePageContent: React.FC = () => {
                       }}
                       key={index}
                       className="my-1 px-4 py-2 rounded-md border-2 border-zinc-800 bg-neutral-900 focus:outline-none focus:border-blue-700"
+                      disabled={status === "unauthenticated"}
                     />
                     <button
                       className="mx-2 w-11 h-11 flex justify-center items-center group"
@@ -89,6 +105,7 @@ const CreatePageContent: React.FC = () => {
                         l.splice(index, 1);
                         setOptions(l);
                       }}
+                      disabled={status === "unauthenticated"}
                     >
                       <Cross className="invert w-6 h-6 group-hover:fill-red-500 group-hover:invert-0" />
                     </button>
@@ -103,10 +120,16 @@ const CreatePageContent: React.FC = () => {
 
                     setOptions([...options, ""]);
                   }}
+                  disabled={status === "unauthenticated"}
                 >
                   <Plus className="invert w-6 h-6 group-hover:fill-blue-700 group-hover:invert-0" />
                 </button>
-                <Button displayText="Submit" styles="flex-grow" type="submit" />
+                <Button
+                  displayText="Submit"
+                  styles="flex-grow"
+                  type="submit"
+                  disabled={status === "unauthenticated"}
+                />
               </div>
             </div>
           </form>
