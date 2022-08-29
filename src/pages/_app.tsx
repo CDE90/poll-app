@@ -31,22 +31,41 @@ export default withTRPC<AppRouter>({
      */
     const url = `${getBaseUrl()}/api/trpc`;
 
-    return {
-      headers() {
-        return {
-          cookie: ctx?.req?.headers.cookie,
-        };
-      },
-      url,
-      transformer: superjson,
-      /**
-       * @link https://react-query.tanstack.com/reference/QueryClient
-       */
-      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
-    };
+    if (typeof window !== "undefined") {
+      return {
+        headers() {
+          return {
+            cookie: ctx?.req?.headers.cookie,
+          };
+        },
+        url,
+        transformer: superjson,
+        /**
+         * @link https://react-query.tanstack.com/reference/QueryClient
+         */
+        // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+      };
+    } else {
+      if (ctx?.pathname.startsWith("/create")) {
+        ctx.res?.setHeader(
+          "Cache-Control",
+          `s-maxage=1, stale-while-revalidate=${60 * 60 * 24}`
+        );
+      }
+      return {
+        headers() {
+          return {
+            cookie: ctx?.req?.headers.cookie,
+            "x-ssr": "1",
+          };
+        },
+        url,
+        transformer: superjson,
+      };
+    }
   },
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: false,
+  ssr: true,
 })(MyApp);

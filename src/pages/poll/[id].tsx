@@ -8,10 +8,7 @@ import { trpc } from "../../utils/trpc";
 
 const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
   const ctx = trpc.useContext();
-  const { data: pollData, isLoading } = trpc.useQuery([
-    "poll.getById",
-    { id: id },
-  ]);
+  const { data: pollData } = trpc.useQuery(["poll.getById", { id: id }]);
   const castVote = trpc.useMutation("poll.voteForPoll", {
     onMutate: () => {
       ctx.cancelQuery(["poll.getById"]);
@@ -37,7 +34,7 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
   return (
     <>
       <Head>
-        <title>Vote on {pollData?.poll?.name}</title>
+        <title>{`Vote on ${pollData?.poll?.name}`}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta content="website" property="og:type" />
         <meta content={`Vote on ${pollData?.poll?.name}`} property="og:title" />
