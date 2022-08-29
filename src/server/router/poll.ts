@@ -64,7 +64,7 @@ export const pollRouter = createRouter()
 
         const optionVotes = options?.map((opt) => {
           const count = votes?.find(
-            (element) => element.optionId === opt.id
+            (element) => element.optionId === opt.id,
           )?._count;
           return {
             ...opt,
@@ -167,7 +167,7 @@ export const pollRouter = createRouter()
       options: z.array(
         z.object({
           name: z.string(),
-        })
+        }),
       ),
     }),
     async resolve({ ctx, input }) {

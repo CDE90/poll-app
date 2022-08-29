@@ -49,7 +49,7 @@ export default withTRPC<AppRouter>({
       if (ctx?.pathname.startsWith("/create")) {
         ctx.res?.setHeader(
           "Cache-Control",
-          `s-maxage=1, stale-while-revalidate=${60 * 60 * 24}`
+          `s-maxage=1, stale-while-revalidate=${60 * 60 * 24}`,
         );
       }
       return {

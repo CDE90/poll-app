@@ -20,8 +20,8 @@ export default defineNextConfig({
       {
         source: "/p/:id",
         destination: "/poll/:id",
-        permanent: true
-      }
-    ]
-  }
+        permanent: true,
+      },
+    ];
+  },
 });

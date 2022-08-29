@@ -79,7 +79,7 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
                     <p>
                       {`${item.count} - ${getPercent(
                         item.count,
-                        pollData.totalVotes
+                        pollData.totalVotes,
                       ).toFixed(1)}%`}
                     </p>
                   </div>
@@ -90,7 +90,7 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
                       style={{
                         width: `${getPercent(
                           item.count,
-                          pollData.totalVotes
+                          pollData.totalVotes,
                         )}%`,
                       }}
                     ></div>
