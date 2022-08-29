@@ -107,7 +107,7 @@ const CreatePageContent: React.FC = () => {
                       }}
                       disabled={status === "unauthenticated"}
                     >
-                      <Cross className="invert w-6 h-6 group-hover:fill-red-500 group-hover:invert-0" />
+                      <Cross className="invert w-6 h-6 group-hover:fill-red-500 group-hover:invert-0 group-hover:rotate-90 transition-all" />
                     </button>
                   </div>
                 );
@@ -122,7 +122,7 @@ const CreatePageContent: React.FC = () => {
                   }}
                   disabled={status === "unauthenticated"}
                 >
-                  <Plus className="invert w-6 h-6 group-hover:fill-blue-700 group-hover:invert-0" />
+                  <Plus className="invert w-6 h-6 group-hover:fill-blue-700 group-hover:invert-0 group-hover:rotate-90 transition-all" />
                 </button>
                 <Button
                   displayText="Submit"
