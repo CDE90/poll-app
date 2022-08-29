@@ -31,8 +31,7 @@ const Polls: React.FC<pollProps> = ({ pollName }) => {
               <p className="text-lg font-bold">{pll.name}</p>
               <div className="flex flex-row">
                 <p>
-                  {pll._count.votes}{" "}
-                  {pll._count.votes === 1 ? "vote." : "votes."}
+                  {pll._count.votes} {pll._count.votes === 1 ? "vote" : "votes"}
                 </p>
                 <p className="ml-auto">{pll.author.name}</p>
               </div>
@@ -53,6 +52,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Poll App</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta content="website" property="og:type" />
         <meta content="Poll App" property="og:title" />
         <meta
           content="Create polls & get votes on important matters"

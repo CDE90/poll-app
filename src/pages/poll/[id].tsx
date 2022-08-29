@@ -32,13 +32,14 @@ const PollPageContent: React.FC<{ id: string }> = ({ id }) => {
     } else return 0;
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  // if (isLoading) return <div>Loading...</div>;
 
   return (
     <>
       <Head>
         <title>Vote on {pollData?.poll?.name}</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta content="website" property="og:type" />
         <meta content={`Vote on ${pollData?.poll?.name}`} property="og:title" />
         <meta
           content={`${pollData?.poll?.author.name} asks: ${pollData?.poll?.name}. Vote now!`}

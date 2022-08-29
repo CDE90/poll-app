@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useState } from "react";
+import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 import Button from "../components/Button";
 import { useRouter } from "next/router";
@@ -9,16 +9,17 @@ import Cross from "../components/Cross";
 import Plus from "../components/Plus";
 import NavBar from "../components/NavBar";
 
-const CreatePage: NextPage = () => {
-  const { status } = useSession({ required: true });
+const CreatePageContent: React.FC = () => {
   const [pollName, setPollName] = useState("");
   const [options, setOptions] = useState(["", ""]);
+  const router = useRouter();
   const { mutate } = trpc.useMutation("poll.createPoll", {
     onSuccess: (data) => {
       router.push(`/poll/${data?.pollId}`);
     },
   });
-  const router = useRouter();
+
+  const { status } = useSession({ required: true });
 
   if (status === "loading") {
     return <main>Loading...</main>;
@@ -26,22 +27,6 @@ const CreatePage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Create a Poll</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta content="Create a new poll!" property="og:title" />
-        <meta
-          content="Create a new poll, and give people options to vote on"
-          property="og:description"
-        />
-        <meta content="https://poll.ethancoward.dev/create" property="og:url" />
-        <meta
-          content="https://poll.ethancoward.dev/app-icon.png"
-          property="og:image"
-        />
-        <meta content="#1d4ed8" data-react-helmet="true" name="theme-color" />
-      </Head>
-
       <NavBar />
       <main className="flex flex-col items-center">
         <h1 className="text-3xl font-bold text-center mt-4">Create Poll</h1>
@@ -131,4 +116,29 @@ const CreatePage: NextPage = () => {
   );
 };
 
-export default CreatePage;
+const CreatePageContainer: NextPage = () => {
+  return (
+    <>
+      <Head>
+        <title>Create a Poll</title>
+        <link rel="icon" href="/favicon.ico" />
+        <meta content="website" property="og:type" />
+        <meta content="Create a new poll!" property="og:title" />
+        <meta
+          content="Create a new poll, and give people options to vote on"
+          property="og:description"
+        />
+        <meta content="https://poll.ethancoward.dev/create" property="og:url" />
+        <meta
+          content="https://poll.ethancoward.dev/app-icon.png"
+          property="og:image"
+        />
+        <meta content="#1d4ed8" data-react-helmet="true" name="theme-color" />
+      </Head>
+
+      <CreatePageContent />
+    </>
+  );
+};
+
+export default CreatePageContainer;
