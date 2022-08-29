@@ -92,7 +92,7 @@ export const pollRouter = createRouter()
           return await ctx.prisma.poll.findMany({
             where: {
               name: {
-                startsWith: input.name,
+                contains: input.name,
               },
             },
             select: {

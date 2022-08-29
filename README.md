@@ -11,7 +11,7 @@ Basically just my version of Strawpoll. A cookie is given to each user to ensure
 - [ ] add custom 404 page?
 - [x] make sure discord embed link works nicely
 - [ ] ability to add a end date/time to polls?
-- [ ] deploy to vercel
+- [x] deploy to vercel
 
 # Create T3 App
 
