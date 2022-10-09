@@ -52,6 +52,10 @@ const Home: NextPage = () => {
       <Head>
         <title>Poll App</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content="Create polls & get votes on important matters"
+        />
         <meta content="website" property="og:type" />
         <meta content="Poll App" property="og:title" />
         <meta

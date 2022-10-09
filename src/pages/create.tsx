@@ -156,6 +156,10 @@ const CreatePageContainer: NextPage = () => {
       <Head>
         <title>Create a Poll</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content="Create polls & get votes on important matters"
+        />
         <meta content="website" property="og:type" />
         <meta content="Create a new poll!" property="og:title" />
         <meta
