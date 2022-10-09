@@ -18,17 +18,18 @@ datasource db {
 
 // for main app
 model Poll {
-    id        String   @id @default(cuid())
+    id        String   @id @default(uuid())
     name      String
     createdAt DateTime @default(now())
     authorId  String
     author    User     @relation(fields: [authorId], references: [id])
     options   Option[]
     votes     Vote[]
+    private   Boolean  @default(false)
 }
 
 model Option {
-    id     String @id @default(cuid())
+    id     String @id @default(uuid())
     name   String
     pollId String
     poll   Poll   @relation(fields: [pollId], references: [id])
@@ -36,7 +37,7 @@ model Option {
 }
 
 model Vote {
-    id        String @id @default(cuid())
+    id        String @id @default(uuid())
     Option    Option @relation(fields: [optionId], references: [id])
     optionId  String
     Poll      Poll   @relation(fields: [pollId], references: [id])
