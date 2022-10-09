@@ -8,10 +8,12 @@ import { useRouter } from "next/router";
 import Cross from "../components/Cross";
 import Plus from "../components/Plus";
 import NavBar from "../components/NavBar";
+import Toggle from "../components/Toggle";
 
 const CreatePageContent: React.FC = () => {
   const [pollName, setPollName] = useState("");
   const [options, setOptions] = useState(["", ""]);
+  const [privateToggle, setPrivateToggle] = useState(false);
   const router = useRouter();
   const { mutate } = trpc.useMutation("poll.createPoll", {
     onSuccess: (data) => {
@@ -62,6 +64,7 @@ const CreatePageContent: React.FC = () => {
                 options: newOptions.map((item) => {
                   return { name: item };
                 }),
+                isPrivate: privateToggle,
               });
             }}
           >
@@ -129,6 +132,13 @@ const CreatePageContent: React.FC = () => {
                   styles="flex-grow"
                   type="submit"
                   disabled={status === "unauthenticated"}
+                />
+              </div>
+              <div className="mt-2">
+                <Toggle
+                  isToggled={privateToggle}
+                  setToggled={setPrivateToggle}
+                  label={"Private Poll"}
                 />
               </div>
             </div>

@@ -219,6 +219,7 @@ export const pollRouter = createRouter()
           name: z.string(),
         }),
       ),
+      isPrivate: z.boolean().default(false),
     }),
     async resolve({ ctx, input }) {
       try {
@@ -226,6 +227,7 @@ export const pollRouter = createRouter()
           data: {
             name: input.name,
             authorId: ctx.session?.user?.id ? ctx.session.user.id : "",
+            private: input.isPrivate,
           },
         });
         await ctx.prisma.option.createMany({
