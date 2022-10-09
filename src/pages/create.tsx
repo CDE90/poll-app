@@ -139,6 +139,7 @@ const CreatePageContent: React.FC = () => {
                   isToggled={privateToggle}
                   setToggled={setPrivateToggle}
                   label={"Private Poll"}
+                  isDisabled={status === "unauthenticated"}
                 />
               </div>
             </div>

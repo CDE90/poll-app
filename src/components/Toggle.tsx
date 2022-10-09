@@ -4,14 +4,23 @@ type ToggleProps = {
   isToggled: boolean;
   setToggled: CallableFunction;
   label: string;
+  isDisabled: boolean;
 };
 
-const Toggle: React.FC<ToggleProps> = ({ isToggled, setToggled, label }) => {
+const Toggle: React.FC<ToggleProps> = ({
+  isToggled,
+  setToggled,
+  label,
+  isDisabled,
+}) => {
+  const baseLabelStyle = "inline-flex relative items-center ";
   return (
     <div>
       <label
         htmlFor="toggle"
-        className="inline-flex relative items-center cursor-pointer"
+        className={
+          isDisabled ? baseLabelStyle : baseLabelStyle + "cursor-pointer"
+        }
       >
         <input
           type={"checkbox"}
@@ -19,6 +28,7 @@ const Toggle: React.FC<ToggleProps> = ({ isToggled, setToggled, label }) => {
           id="toggle"
           className="sr-only peer"
           checked={isToggled}
+          disabled={isDisabled}
           onChange={() => {
             setToggled(!isToggled);
           }}
