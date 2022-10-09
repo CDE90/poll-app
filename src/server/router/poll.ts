@@ -5,7 +5,8 @@ import { Option, Poll } from "@prisma/client";
 
 export const pollRouter = createRouter()
   .query("getAll", {
-    async resolve({ ctx }) {
+    input: z.object({ getPrivatePolls: z.boolean().default(false) }),
+    async resolve({ ctx, input }) {
       try {
         return await ctx.prisma.poll.findMany({
           select: {
@@ -16,6 +17,20 @@ export const pollRouter = createRouter()
           },
           orderBy: {
             createdAt: "desc",
+          },
+          where: {
+            OR: [
+              {
+                private: {
+                  equals: false,
+                },
+              },
+              {
+                private: {
+                  equals: input.getPrivatePolls,
+                },
+              },
+            ],
           },
         });
       } catch (error) {
@@ -88,15 +103,36 @@ export const pollRouter = createRouter()
     },
   })
   .query("getByName", {
-    input: z.object({ name: z.optional(z.string()) }),
+    input: z.object({
+      name: z.optional(z.string()),
+      getPrivatePolls: z.boolean().default(false),
+    }),
     async resolve({ ctx, input }) {
       try {
         if (input.name) {
           return await ctx.prisma.poll.findMany({
             where: {
-              name: {
-                contains: input.name,
-              },
+              AND: [
+                {
+                  OR: [
+                    {
+                      private: {
+                        equals: false,
+                      },
+                    },
+                    {
+                      private: {
+                        equals: input.getPrivatePolls,
+                      },
+                    },
+                  ],
+                },
+                {
+                  name: {
+                    contains: input.name,
+                  },
+                },
+              ],
             },
             select: {
               name: true,
@@ -129,6 +165,20 @@ export const pollRouter = createRouter()
           },
           orderBy: {
             createdAt: "desc",
+          },
+          where: {
+            OR: [
+              {
+                private: {
+                  equals: false,
+                },
+              },
+              {
+                private: {
+                  equals: input.getPrivatePolls,
+                },
+              },
+            ],
           },
         });
       } catch (error) {
