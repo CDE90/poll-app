@@ -95,7 +95,7 @@ export const pollRouter = createRouter()
           poll,
           votes: optionVotes,
           totalVotes: totalVotes ? totalVotes : 0,
-          userVoted: !!userVoted,
+          userVoted: Boolean(userVoted),
         };
       } catch (error) {
         console.log(error);
